@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven 3.3.9
+Built-By: ENTRAPTA
+Build-Jdk: 11.0.8
+Class-Path: gson-2.9.0.jar
+Main-Class: main.Main
+
