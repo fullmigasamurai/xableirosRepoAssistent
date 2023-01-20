@@ -1,9 +1,11 @@
 package view;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import javax.swing.JOptionPane;
 
@@ -18,8 +20,9 @@ import fileAssistent.FuFile;
  */
 public class AssistenteJanela {
 
-	public File userHome;
-	public File xableirosHome;
+	public String userHome;
+	public String xableirosHome;
+	public String systemHome;
 	public JsonObject config;
 	private XableirosRepoAssistente janela;
 
@@ -38,9 +41,10 @@ public class AssistenteJanela {
 	}
 
 	public void initVars () {
-		userHome = new java.io.File(System.getProperty("user.home"));
-		xableirosHome = new java.io.File(System.getProperty("user.home")+"/Xableiros");
-		config = FuFile.readFileJsonObject(System.getProperty("user.dir")+"/conf/config.json");
+		userHome =(System.getProperty("user.home"));
+		xableirosHome = (System.getProperty("user.home")+"/Xableiros");
+		systemHome = System.getProperty("user.dir");
+		config = FuFile.readFileJsonObject(systemHome+"/conf/config.json");
 	}
 
 	public void loadConfig () {
@@ -72,9 +76,19 @@ public class AssistenteJanela {
 
 	}
 
+	/**
+	 * 
+	 * @param message
+	 */
 	public void setMessage(String message) {
 		setMessage(message, null);
 	}
+
+	/**
+	 * 
+	 * @param message
+	 * @param type
+	 */
 	public void setMessage(String message, String type) {
 		janela.messageLabel.setText(message);
 
@@ -94,11 +108,20 @@ public class AssistenteJanela {
 		}
 	}
 
+	/**
+	 * 
+	 * @param text
+	 * @return
+	 */
 	public String pathDsText (String text) {
 		this.janela.pathDsText.setText(text);
 		return this.janela.pathDsText.getText();
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String pathDsText () {
 		if (this.janela.pathDsText.getText()==null || this.janela.pathDsText.getText().equals("")) {
 			System.out.println("Caminho Para Diretório DS Vazio");
@@ -162,15 +185,24 @@ public class AssistenteJanela {
 		}
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
 	public String getFolderPath() {
 		return getFolderPath("");
 	}
 
+	/**
+	 * 
+	 * @param pathName
+	 * @return
+	 */
 	public String getFolderPath(String pathName) {
 
 		javax.swing.JFileChooser arq;
 		arq = new javax.swing.JFileChooser();
-		arq.setCurrentDirectory(xableirosHome);
+		arq.setCurrentDirectory(new java.io.File(xableirosHome));
 		arq.setDialogTitle("Selecione O Diretório " + pathName);
 		this.setMessage("Selecionando Diretorio "+ pathName);
 		arq.setFileSelectionMode(javax.swing.JFileChooser.DIRECTORIES_ONLY);
@@ -194,6 +226,10 @@ public class AssistenteJanela {
 
 	}
 
+	/**
+	 * 
+	 * @param dsDir
+	 */
 	public void getDsFiles(String dsDir) {
 		try {
 			dsDir = this.pathDsText()+"/"+dsDir+"/";
@@ -242,6 +278,11 @@ public class AssistenteJanela {
 		}
 	}
 
+	/**
+	 * 
+	 * @param dsDir
+	 * @return
+	 */
 	public Boolean copyDsFiles (String dsDir) {
 		if (this.pathDsText().equals("")) {
 			this.setMessage("Erro Ao Copiar, Diretório DS Ñ Encontrado", "ERRO");
@@ -285,6 +326,10 @@ public class AssistenteJanela {
 
 	}
 
+	/**
+	 * 
+	 * @param dsName
+	 */
 	public void saveDs(String dsName) {
 		if (this.pathDsText().equals("")) {
 			this.setMessage("Erro Ao Copiar, Diretório DS Ñ Encontrado", "ERRO");
@@ -311,8 +356,122 @@ public class AssistenteJanela {
 
 	}
 
+	/**
+	 * 
+	 * @param idsContratos
+	 */
+	public void generateDeleteScriptsContratos (String idsContratos) {
+		if (idsContratos==null || idsContratos.isEmpty()) {
+			setMessage("Nenhum Id Inforado", "WARNING");
+			return;
+		}
+
+		if(idsContratos.indexOf(",")<=0) {
+			generateDeleteScriptContrato(idsContratos);
+			return;
+		}
+
+		String[] idsContratosSplit = idsContratos.split(",");
+		for (String idContrato : idsContratosSplit) {
+			generateDeleteScriptContrato(idContrato);
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param idContrato
+	 */
 	public void generateDeleteScriptContrato (String idContrato) {
-		
+		String scriptName = janela.mssqlRadioButton.isSelected() ? "msSql" 
+			: janela.oracleRadioButton.isSelected() ? "oracle"	
+			: "postgres";			
+		scriptName="exclui-contrato-"+scriptName;
+
+		if (!FuFile.isArq(systemHome+"/conf/"+scriptName+".sql")) {
+			setMessage("Arquivo Origem Do Script Não Encontrado", "WARNING");
+			return;
+
+		}
+
+		ArrayList<String> deleteContrato = FileManipulator.buffReadAndReplaceFileToArrayList(systemHome+"/conf/"+scriptName+".sql", "idContratoSubstituir", idContrato);
+		if (deleteContrato==null) {
+			setMessage("Erro Ao Gerar Script De Exclusão!", "ERRO");
+		}
+
+		try {
+
+			String scriptPath = systemHome.substring(0, systemHome.lastIndexOf("\\"));
+			scriptPath+="/scripts/";
+
+			Files.createDirectories(Paths.get(scriptPath));
+			FileManipulator.buffWriteArrayList(scriptPath+scriptName+"-"+idContrato+".sql", deleteContrato);
+
+			setMessage("Script Gerado Na Pasta 'scripts'", "SUCCESS");
+			
+		} catch (IOException e) {
+			setMessage("Erro Ao Gerar Arquivo De Exclusão!", "ERRO");			
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param idsContratos
+	 */
+	public void generateScriptsContratos (String idsContratos, String souceFile) {
+		if (idsContratos==null || idsContratos.isEmpty()) {
+			setMessage("Nenhum Id Inforado", "WARNING");
+			return;
+		}
+		souceFile+="-";
+		if(idsContratos.indexOf(",")<=0) {
+			generateScriptContrato(idsContratos, souceFile);
+			return;
+		}
+
+		String[] idsContratosSplit = idsContratos.split(",");
+		for (String idContrato : idsContratosSplit) {
+			generateScriptContrato(idContrato, souceFile);
+		}
+
+	}
+
+	/**
+	 * 
+	 * @param idContrato
+	 */
+	public void generateScriptContrato (String idContrato, String souceFile) {
+		String scriptName = janela.mssqlRadioButton.isSelected() ? "msSql" 
+			: janela.oracleRadioButton.isSelected() ? "oracle"	
+			: "postgres";			
+		scriptName=souceFile+scriptName;
+
+		if (!FuFile.isArq(systemHome+"/conf/"+scriptName+".sql")) {
+			setMessage("Arquivo Origem Do Script Não Encontrado", "WARNING");
+			return;
+
+		}
+
+		ArrayList<String> deleteContrato = FileManipulator.buffReadAndReplaceFileToArrayList(systemHome+"/conf/"+scriptName+".sql", "idContratoSubstituir", idContrato);
+		if (deleteContrato==null) {
+			setMessage("Erro Ao Gerar Script De Exclusão!", "ERRO");
+		}
+
+		try {
+
+			String scriptPath = systemHome.substring(0, systemHome.lastIndexOf("\\"));
+			scriptPath+="/scripts/";
+
+			Files.createDirectories(Paths.get(scriptPath));
+			FileManipulator.buffWriteArrayList(scriptPath+scriptName+"-"+idContrato+".sql", deleteContrato);
+
+			setMessage("Script Gerado Na Pasta 'scripts'", "SUCCESS");
+			
+		} catch (IOException e) {
+			setMessage("Erro Ao Gerar Arquivo De Exclusão!", "ERRO");			
+		}
+
 	}
 
 }

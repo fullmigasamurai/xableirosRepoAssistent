@@ -11,9 +11,20 @@ import com.google.gson.JsonObject;
 
 public class FuFile {
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static boolean isArq (File file){
 		return isArq(file.getAbsolutePath());
 	}
+
+	/**
+	 * 
+	 * @param name
+	 * @return
+	 */
 	public static boolean isArq (String name){
 		java.io.BufferedReader reader = null;
 		try {
@@ -30,11 +41,21 @@ public class FuFile {
 
 		return true;
 	}
-        
+
+	/**
+	 * 
+	 * @param dir
+	 * @return
+	 */
 	public static boolean isDir (String dir) {
 		return isDir (new File (dir));
 	}
 
+	/**
+	 * 
+	 * @param dir
+	 * @return
+	 */
 	public static boolean isDir (File dir) {
 		try {			
 			return dir.exists();
@@ -44,6 +65,13 @@ public class FuFile {
 		 }
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param oldName
+	 * @param newName
+	 * @return
+	 */
 	public static File changeName (File file, String oldName, String newName) {
 		if (file.getName().contains(oldName)){
 			file = new File(file.getParent()+"/"+file.getName().replace(oldName, newName));
@@ -51,6 +79,13 @@ public class FuFile {
 		return file;
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param oldName
+	 * @param newName
+	 * @return
+	 */
 	public static File replaceFile (File file, String oldName, String newName){
 		if (file.getName().contains(oldName)){
 			File replace = new File(file.getParent()+"/"+file.getName().replace(oldName, newName));
@@ -62,12 +97,24 @@ public class FuFile {
 
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param newName
+	 * @return
+	 */
 	public static File changeName (File file, String newName) {
 			file = new File(file.getParent()+"/"+newName);
 
 		return file;
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param newName
+	 * @return
+	 */
 	public static File replaceFile (File file, String newName){
 			File replace = new File(file.getParent()+"/"+newName);
 			Boolean b = file.renameTo(replace);
@@ -76,12 +123,22 @@ public class FuFile {
 
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static String readFileToString (File file) {
 		return readFileToString(file.getAbsolutePath());
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static String readFileToString (String file) {
-		
+
 		try {
 
 			byte[] bytes = Files.readAllBytes(Paths.get(file));
@@ -94,6 +151,12 @@ public class FuFile {
 
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param fileContent
+	 * @return
+	 */
 	public static Boolean saveFileFromString (String file, String fileContent) {
 		try {
 			
@@ -108,10 +171,21 @@ public class FuFile {
 		
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param fileContent
+	 * @return
+	 */
 	public static Boolean saveFileFromString (File file, String fileContent) {
 		return saveFileFromString(file.getAbsolutePath(), fileContent);
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static JsonObject readFileJsonObject (File file) {
 		if (!isArq(file)) return null;
 
@@ -122,6 +196,12 @@ public class FuFile {
 		return jsonObject;
 
 	}
+
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static JsonObject readFileJsonObject (String file) {
 		
 		return readFileJsonObject(new File(file));

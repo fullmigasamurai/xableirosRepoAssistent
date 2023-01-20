@@ -54,10 +54,11 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         scriptsTabPanel = new javax.swing.JPanel();
         idDoContratoText = new javax.swing.JTextField();
         idDoContratoLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        deleteContratoButton = new javax.swing.JButton();
+        mssqlRadioButton = new javax.swing.JRadioButton();
+        oracleRadioButton = new javax.swing.JRadioButton();
+        postgresRadioButton = new javax.swing.JRadioButton();
+        deleteContratoButton1 = new javax.swing.JButton();
         repoTabPanel = new javax.swing.JPanel();
         configTabPanel = new javax.swing.JPanel();
         pathDsLabel = new javax.swing.JLabel();
@@ -80,6 +81,9 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         thirdTabTablePanel = new javax.swing.JPanel();
         textArea03ScrollPane = new javax.swing.JScrollPane();
         panel03TextArea = new javax.swing.JTextArea();
+        fourthTabTablePanel = new javax.swing.JPanel();
+        textArea04ScrollPane = new javax.swing.JScrollPane();
+        panel04TextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -246,30 +250,42 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         idDoContratoLabel.setForeground(new java.awt.Color(102, 255, 153));
         idDoContratoLabel.setText("Id Do Contrato:");
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setForeground(new java.awt.Color(204, 0, 0));
-        jButton1.setText("Gerar Exclusão");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        deleteContratoButton.setBackground(new java.awt.Color(255, 204, 204));
+        deleteContratoButton.setForeground(new java.awt.Color(204, 0, 0));
+        deleteContratoButton.setText("Gerar Exclusão");
+        deleteContratoButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deleteContratoButtonActionPerformed(evt);
             }
         });
 
-        jRadioButton1.setBackground(new java.awt.Color(51, 51, 51));
-        dataBaseTypeButtonGroup.add(jRadioButton1);
-        jRadioButton1.setForeground(new java.awt.Color(102, 255, 153));
-        jRadioButton1.setText("Mssql");
+        mssqlRadioButton.setBackground(new java.awt.Color(51, 51, 51));
+        dataBaseTypeButtonGroup.add(mssqlRadioButton);
+        mssqlRadioButton.setForeground(new java.awt.Color(102, 255, 153));
+        mssqlRadioButton.setSelected(true);
+        mssqlRadioButton.setText("Mssql");
 
-        jRadioButton2.setBackground(new java.awt.Color(51, 51, 51));
-        dataBaseTypeButtonGroup.add(jRadioButton2);
-        jRadioButton2.setForeground(new java.awt.Color(102, 255, 153));
-        jRadioButton2.setText("Oracle");
+        oracleRadioButton.setBackground(new java.awt.Color(51, 51, 51));
+        dataBaseTypeButtonGroup.add(oracleRadioButton);
+        oracleRadioButton.setForeground(new java.awt.Color(102, 255, 153));
+        oracleRadioButton.setText("Oracle");
 
-        jRadioButton3.setBackground(new java.awt.Color(51, 51, 51));
-        dataBaseTypeButtonGroup.add(jRadioButton3);
-        jRadioButton3.setForeground(new java.awt.Color(102, 255, 153));
-        jRadioButton3.setText("Postgres");
-        jRadioButton3.setEnabled(false);
+        postgresRadioButton.setBackground(new java.awt.Color(51, 51, 51));
+        dataBaseTypeButtonGroup.add(postgresRadioButton);
+        postgresRadioButton.setForeground(new java.awt.Color(102, 255, 153));
+        postgresRadioButton.setText("Postgres");
+
+        deleteContratoButton1.setBackground(new java.awt.Color(204, 255, 204));
+        deleteContratoButton1.setForeground(new java.awt.Color(0, 153, 51));
+        deleteContratoButton1.setText("Vamos Celebrar");
+        deleteContratoButton1.setMaximumSize(new java.awt.Dimension(105, 23));
+        deleteContratoButton1.setMinimumSize(new java.awt.Dimension(105, 23));
+        deleteContratoButton1.setPreferredSize(new java.awt.Dimension(105, 23));
+        deleteContratoButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteContratoButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout scriptsTabPanelLayout = new javax.swing.GroupLayout(scriptsTabPanel);
         scriptsTabPanel.setLayout(scriptsTabPanelLayout);
@@ -282,14 +298,17 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                         .addComponent(idDoContratoLabel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
                         .addComponent(idDoContratoText, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(scriptsTabPanelLayout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scriptsTabPanelLayout.createSequentialGroup()
+                        .addComponent(mssqlRadioButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)
+                        .addComponent(oracleRadioButton)
                         .addGap(18, 18, 18)
-                        .addComponent(jRadioButton3)
+                        .addComponent(postgresRadioButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(deleteContratoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scriptsTabPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(deleteContratoButton, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         scriptsTabPanelLayout.setVerticalGroup(
@@ -300,12 +319,15 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                     .addComponent(idDoContratoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(idDoContratoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addGroup(scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(mssqlRadioButton)
+                        .addComponent(oracleRadioButton)
+                        .addComponent(postgresRadioButton))
+                    .addComponent(deleteContratoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(deleteContratoButton)
+                .addContainerGap(266, Short.MAX_VALUE))
         );
 
         rightTabbedPane.addTab("Scripts", scriptsTabPanel);
@@ -539,6 +561,33 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
 
         leftTabbedPanel.addTab("sigapatrimonio-ds", thirdTabTablePanel);
 
+        fourthTabTablePanel.setBackground(new java.awt.Color(51, 0, 51));
+
+        panel04TextArea.setBackground(new java.awt.Color(49, 0, 73));
+        panel04TextArea.setColumns(20);
+        panel04TextArea.setForeground(new java.awt.Color(51, 255, 51));
+        panel04TextArea.setRows(5);
+        textArea04ScrollPane.setViewportView(panel04TextArea);
+
+        javax.swing.GroupLayout fourthTabTablePanelLayout = new javax.swing.GroupLayout(fourthTabTablePanel);
+        fourthTabTablePanel.setLayout(fourthTabTablePanelLayout);
+        fourthTabTablePanelLayout.setHorizontalGroup(
+            fourthTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fourthTabTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(textArea04ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        fourthTabTablePanelLayout.setVerticalGroup(
+            fourthTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fourthTabTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(textArea04ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        leftTabbedPanel.addTab("texto", fourthTabTablePanel);
+
         javax.swing.GroupLayout BackGroundPanelLayout = new javax.swing.GroupLayout(BackGroundPanel);
         BackGroundPanel.setLayout(BackGroundPanelLayout);
         BackGroundPanelLayout.setHorizontalGroup(
@@ -694,9 +743,14 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_foreGroundColorTextKeyPressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        assistenteJanela.generateDeleteScriptContrato(this.idDoContratoText.getText());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void deleteContratoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteContratoButtonActionPerformed
+        //assistenteJanela.generateDeleteScriptsContratos(this.idDoContratoText.getText());
+        assistenteJanela.generateScriptsContratos(this.idDoContratoText.getText(), "exclui-contrato");
+    }//GEN-LAST:event_deleteContratoButtonActionPerformed
+
+    private void deleteContratoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteContratoButton1ActionPerformed
+        assistenteJanela.generateScriptsContratos(this.idDoContratoText.getText(), "vamos-celebrar-2.0");
+    }//GEN-LAST:event_deleteContratoButton1ActionPerformed
 
     private AssistenteJanela assistenteJanela;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -710,30 +764,33 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
     private javax.swing.JPanel configTabPanel;
     public javax.swing.JCheckBox contratoCheckBox;
     private javax.swing.JLabel copyDsLabel;
-    private javax.swing.ButtonGroup dataBaseTypeButtonGroup;
+    public javax.swing.ButtonGroup dataBaseTypeButtonGroup;
+    private javax.swing.JButton deleteContratoButton;
+    private javax.swing.JButton deleteContratoButton1;
     public javax.swing.JList<String> dsPathList;
     private javax.swing.JScrollPane dsPathScrollPanel;
     private javax.swing.JPanel dsTabPanel;
     private javax.swing.JPanel firstTabTablePanel;
     private javax.swing.JLabel foreGroundColorLabel;
     public javax.swing.JTextField foreGroundColorText;
+    private javax.swing.JPanel fourthTabTablePanel;
     private javax.swing.JLabel idDoContratoLabel;
     public javax.swing.JTextField idDoContratoText;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JTabbedPane leftTabbedPanel;
     public javax.swing.JLabel messageLabel;
+    public javax.swing.JRadioButton mssqlRadioButton;
+    public javax.swing.JRadioButton oracleRadioButton;
     public javax.swing.JTextArea panel01TextArea;
     public javax.swing.JTextArea panel02TextArea;
     public javax.swing.JTextArea panel03TextArea;
+    public javax.swing.JTextArea panel04TextArea;
     private javax.swing.JLabel pathDeployLabel;
     public javax.swing.JTextField pathDeployText;
     private javax.swing.JLabel pathDsLabel;
     public javax.swing.JTextField pathDsText;
     public javax.swing.JCheckBox patrimonioCheckBox;
+    public javax.swing.JRadioButton postgresRadioButton;
     private javax.swing.JButton readDsButton;
     private javax.swing.JButton replaceDsButton;
     private javax.swing.JPanel repoTabPanel;
@@ -747,6 +804,7 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
     private javax.swing.JScrollPane textArea01ScrollPane2;
     private javax.swing.JScrollPane textArea02ScrollPane;
     private javax.swing.JScrollPane textArea03ScrollPane;
+    private javax.swing.JScrollPane textArea04ScrollPane;
     private javax.swing.JPanel thirdTabTablePanel;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
