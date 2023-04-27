@@ -9,6 +9,7 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import fileAssistent.FileManipulator;
@@ -45,12 +46,20 @@ public class AssistenteJanela {
 		xableirosHome = (System.getProperty("user.home")+"/Xableiros");
 		systemHome = System.getProperty("user.dir");
 		config = FuFile.readFileJsonObject(systemHome+"/conf/config.json");
+		
+		if (config == null || "baguncado".equals(config.get("DefaultConfigs").getAsString())) {
+			config = FuFile.readFileJsonObject(systemHome+"/conf/userConfig.json");
+		}
 	}
 
 	public void loadConfig () {
 		if (config!=null) {
 			this.janela.pathDsText.setText(config.get("dsPath").getAsString());
 			this.janela.pathDeployText.setText(config.get("deployPath").getAsString());
+			
+			this.janela.mavenHomeText.setText(config.get("MavenHomePath").getAsString());
+			this.janela.mavenUserSettingsText.setText(config.get("MavenUserSettingsFilePath").getAsString());
+			this.janela.mavenRepoText.setText(config.get("MavemRepoPath").getAsString());
 			
 			JsonObject colorConfig = config.get("colorConfig").getAsJsonObject();
 			String hex = colorConfig.get("backGroundTextArea").getAsString();
@@ -159,8 +168,9 @@ public class AssistenteJanela {
 			System.out.println("Erro ao Carregar diretorio DS");
 			e.printStackTrace();
 			setMessage("Erro ao Carregar diretorio DS", "ERRO");
-			throw e;
+			throw e;			
 		}
+		setMessage("DS's Carregadas", "SUCCESS");
 
 	}
 
@@ -232,10 +242,10 @@ public class AssistenteJanela {
 	 */
 	public void getDsFiles(String dsDir) {
 		try {
-			dsDir = this.pathDsText()+"/"+dsDir+"/";
+			String pathDsDir = this.pathDsText()+"/"+dsDir+"/";
 			if (janela.comumCheckBox.isSelected()) {
-				if (FuFile.isArq(dsDir+"sigacomum-ds.xml")) {
-					String comum_ds = FuFile.readFileToString(dsDir+"sigacomum-ds.xml");
+				if (FuFile.isArq(pathDsDir+"sigacomum-ds.xml")) {
+					String comum_ds = FuFile.readFileToString(pathDsDir+"sigacomum-ds.xml");
 					janela.panel01TextArea.setText(comum_ds);
 				} else {
 					janela.panel01TextArea.setText("NÃO ENCONRTADO");
@@ -245,8 +255,8 @@ public class AssistenteJanela {
 			}
 
 			if (janela.contratoCheckBox.isSelected()) {
-				if (FuFile.isArq(dsDir+"sigacontrato-ds.xml")) {
-					String comum_ds = FuFile.readFileToString(dsDir+"sigacontrato-ds.xml");
+				if (FuFile.isArq(pathDsDir+"sigacontrato-ds.xml")) {
+					String comum_ds = FuFile.readFileToString(pathDsDir+"sigacontrato-ds.xml");
 					janela.panel02TextArea.setText(comum_ds);
 				} else {
 					janela.panel02TextArea.setText("NÃO ENCONRTADO");
@@ -256,8 +266,8 @@ public class AssistenteJanela {
 			}
 
 			if (janela.patrimonioCheckBox.isSelected()) {
-				if (FuFile.isArq(dsDir+"sigapatrimonio-ds.xml")) {
-					String comum_ds = FuFile.readFileToString(dsDir+"sigapatrimonio-ds.xml");
+				if (FuFile.isArq(pathDsDir+"sigapatrimonio-ds.xml")) {
+					String comum_ds = FuFile.readFileToString(pathDsDir+"sigapatrimonio-ds.xml");
 					janela.panel03TextArea.setText(comum_ds);
 				} else {
 					janela.panel03TextArea.setText("NÃO ENCONRTADO");
@@ -270,12 +280,16 @@ public class AssistenteJanela {
 				&& janela.panel02TextArea.getText().equals("NÃO ENCONRTADO") || janela.panel01TextArea.getText().equals("NÃO ENCONRTADO")
 				&& (janela.panel03TextArea.getText().equals("NÃO ENCONRTADO") || janela.panel01TextArea.getText().equals("NÃO ENCONRTADO"))) {
 					setMessage("Nenhum Arquivo Encontrado", "WARNING");
-			}
-
+				}
+				
+				
 		} catch (Exception e) {
 			e.printStackTrace();
-			System.out.println("Erro Ao Copiar DS");
+			System.out.println("Erro Ao Carregar DS " + dsDir);
+			setMessage("Erro Ao Carregar DS " + dsDir, "ERRO");
 		}
+
+		setMessage("DS's carregadas " + dsDir);
 	}
 
 	/**
@@ -339,17 +353,23 @@ public class AssistenteJanela {
 		String dsFullFilePath = this.pathDsText() + "/" + janela.dsPathList.getSelectedValue()+ "/" + dsName + ".xml";
 
 		if (dsName.equalsIgnoreCase("sigacomum-ds")) {
-			FuFile.saveFileFromString(dsFullFilePath, janela.panel01TextArea.getText());
+			if (FuFile.saveFileFromString(dsFullFilePath, janela.panel01TextArea.getText())) {
+				this.setMessage("Arquivo " + dsName + " salvo", "SUCCESS");
+			}
 			return;
 
 		}
 		if (dsName.equalsIgnoreCase("sigacontrato-ds")) {
-			FuFile.saveFileFromString(dsFullFilePath, janela.panel02TextArea.getText());
+			if (FuFile.saveFileFromString(dsFullFilePath, janela.panel02TextArea.getText())) {
+				this.setMessage("Arquivo " + dsName + " salvo", "SUCCESS");
+			}
 			return;
 
 		}
 		if (dsName.equalsIgnoreCase("sigapatrimonio-ds")) {
-			FuFile.saveFileFromString(dsFullFilePath, janela.panel03TextArea.getText());
+			if (FuFile.saveFileFromString(dsFullFilePath, janela.panel03TextArea.getText())) {
+				this.setMessage("Arquivo " + dsName + " salvo", "SUCCESS");
+			}
 			return;
 
 		}
@@ -471,6 +491,34 @@ public class AssistenteJanela {
 		} catch (IOException e) {
 			setMessage("Erro Ao Gerar Arquivo De Exclusão!", "ERRO");			
 		}
+
+	}
+
+	public void generateXableirosPaths() {
+		StringBuilder jsonString = new StringBuilder();
+		jsonString.append("\"deployPath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/jboss-5.1.0.GA.GCONT/server/default/deploy\",");
+		jsonString.append("\"dsPath\": \"C:/Users/ENTRAPTA/Xableiros/DS\",");
+		jsonString.append("\"jBossPath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/jboss-5.1.0.GA.GCONT\",");
+		jsonString.append("\"MavenHomePath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/apache-maven-3.2.5\",");
+		jsonString.append("\"MavenUserSettingsFilePath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/apache-maven-3.2.5/conf/settings_gcont.xml\",");
+		jsonString.append("\"MavemRepoPath\": \"C:/Users/ENTRAPTA/Xableiros/MavemRepo\",");
+		jsonString.append("\"DefaultConfigs\": \"xableiros\", ");
+		jsonString.append("\"checkBoxDefault\": {");
+		jsonString.append("	\"comum\": true,");
+		jsonString.append("	\"contrato\": true,");
+		jsonString.append("	\"patrimonio\": false");
+		jsonString.append("},");
+		jsonString.append("\"colorConfig\": {");
+		jsonString.append("	\"backGroundTextArea\": \"310049\",");
+		jsonString.append("	\"foreGroundTextArea\": \"33FF33\"");
+		jsonString.append("}");
+
+		JsonObject generateConfig = new JsonObject();
+
+		generateConfig = new Gson().fromJson(jsonString.toString(), JsonObject.class);
+
+		System.out.println(generateConfig);
+
 
 	}
 
