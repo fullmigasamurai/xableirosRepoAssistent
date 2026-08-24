@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 public class FuFile {
@@ -170,6 +171,28 @@ public class FuFile {
 		}
 		
 	}
+        
+        /**
+	 * 
+	 * @param file
+	 * @param fileContentJsonObject
+	 * @return
+	 */
+	public static Boolean saveFileFromJsonObject (String file, JsonObject fileContentJsonObject) {
+		try {
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                        String jsonFormatted = gson.toJson(fileContentJsonObject);  
+                        
+			Files.write(Paths.get(file), jsonFormatted.getBytes());
+			
+			return true;			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 
 	/**
 	 * 
@@ -179,6 +202,16 @@ public class FuFile {
 	 */
 	public static Boolean saveFileFromString (File file, String fileContent) {
 		return saveFileFromString(file.getAbsolutePath(), fileContent);
+	}
+        
+        	/**
+	 * 
+	 * @param file
+	 * @param fileContentJsonObject
+	 * @return
+	 */
+	public static Boolean saveFileFromJsonObject (File file, JsonObject fileContentJsonObject) {
+		return saveFileFromJsonObject(file.getAbsolutePath(), fileContentJsonObject);
 	}
 
 	/**

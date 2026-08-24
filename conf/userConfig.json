@@ -1,17 +1,18 @@
 {
-    "deployPath": "C:/Users/ENTRAPTA/Xableiros/contratos/jboss-5.1.0.GA.GCONT/server/default/deploy",
-    "dsPath": "C:/Users/ENTRAPTA/Xableiros/DS",
-    "jBossPath": "C:/Users/ENTRAPTA/Xableiros/contratos/jboss-5.1.0.GA.GCONT",
-    "MavenHomePath": "C:/Users/ENTRAPTA/Xableiros/contratos/apache-maven-3.2.5",
-    "MavenUserSettingsFilePath": "C:/Users/ENTRAPTA/Xableiros/contratos/apache-maven-3.2.5/conf/settings_gcont.xml",
-    "MavemRepoPath": "C:/Users/ENTRAPTA/Xableiros/MavemRepo",
-    "checkBoxDefault": {
-        "comum": true,
-        "contrato": true,
-        "patrimonio": false
-    },
-    "colorConfig": {
-        "backGroundTextArea": "310049",
-        "foreGroundTextArea": "33FF33"
-    }
+  "deployPath": "C:/Codigos/AZTec/AzProjetos/contratos/jboss-5.1.0.GA.GCONT/server/default/deploy",
+  "dsPath": "C:/Codigos/AZTec/AzProjetos/contratos/DS",
+  "jBossPath": "C:/Codigos/AZTec/AzProjetos/contratos/jboss-5.1.0.GA.GCONT",
+  "MavenHomePath": "C:/Codigos/AZTec/AzProjetos/contratos/apache-maven-3.2.5",
+  "MavenUserSettingsFilePath": "C:/Codigos/AZTec/AzProjetos/contratos/apache-maven-3.2.5/conf/settings_gcont.xml",
+  "MavemRepoPath": "C:/Codigos/AZTec/MavenRepo",
+  "DefaultConfigs": "baguncado",
+  "checkBoxDefault": {
+    "comum": true,
+    "contrato": true,
+    "patrimonio": false
+  },
+  "colorConfig": {
+    "backGroundTextArea": "310049",
+    "foreGroundTextArea": "33FF33"
+  }
 }

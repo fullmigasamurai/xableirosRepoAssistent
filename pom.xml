@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>fullmiga</groupId>
     <artifactId>xableirosRepoAssistente</artifactId>
-    <version>1.0-beta</version>
+    <version>1.4.1-beta</version>
     <packaging>jar</packaging>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -88,5 +88,5 @@
 
         </plugins>
     </build>
-
+    <description>Adicionado função para salvar as configurações de usuário</description>
 </project>

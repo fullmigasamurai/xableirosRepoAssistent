@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.swing.JOptionPane;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import fileAssistent.FileManipulator;
@@ -29,39 +28,40 @@ public class AssistenteJanela {
 
 	AssistenteJanela(XableirosRepoAssistente janela) {
 		this.janela = janela;
-		initVars();
-		loadConfig();
-		if (config == null) {
+		this.initVars();
+		this.loadConfig();
+		if (this.config == null) {
 			setMessage("Arquivo De Configurações Não Encontrado", "WARNING");
 			return;
 		}
-		initValues();
+		this.initValues();
 
 		// Reader reader = new BufferedReader(new FileReader(configFile.getAbsolutePath()));
 		// Map<?, ?> map = new Gson().fromJson(reader, Map.class);
 	}
 
 	public void initVars () {
-		userHome =(System.getProperty("user.home"));
-		xableirosHome = (System.getProperty("user.home")+"/Xableiros");
-		systemHome = System.getProperty("user.dir");
-		config = FuFile.readFileJsonObject(systemHome+"/conf/config.json");
+		this.userHome =(System.getProperty("user.home"));
+		this.xableirosHome = (System.getProperty("user.home")+"/Xableiros");
+		this.systemHome = System.getProperty("user.dir");
+		this.config = FuFile.readFileJsonObject(systemHome+"/conf/config.json");
+                
 		
-		if (config == null || "baguncado".equals(config.get("DefaultConfigs").getAsString())) {
-			config = FuFile.readFileJsonObject(systemHome+"/conf/userConfig.json");
+		if (this.config == null || "baguncado".equals(this.config.get("DefaultConfigs").getAsString())) {
+			this.config = FuFile.readFileJsonObject(systemHome+"/conf/userConfig.json");
 		}
 	}
 
 	public void loadConfig () {
 		if (config!=null) {
-			this.janela.pathDsText.setText(config.get("dsPath").getAsString());
-			this.janela.pathDeployText.setText(config.get("deployPath").getAsString());
+			this.janela.pathDsText.setText(this.config.get("dsPath").getAsString());
+			this.janela.pathDeployText.setText(this.config.get("deployPath").getAsString());
 			
-			this.janela.mavenHomeText.setText(config.get("MavenHomePath").getAsString());
-			this.janela.mavenUserSettingsText.setText(config.get("MavenUserSettingsFilePath").getAsString());
-			this.janela.mavenRepoText.setText(config.get("MavemRepoPath").getAsString());
+			this.janela.mavenHomeText.setText(this.config.get("MavenHomePath").getAsString());
+			this.janela.mavenUserSettingsText.setText(this.config.get("MavenUserSettingsFilePath").getAsString());
+			this.janela.mavenRepoText.setText(this.config.get("MavemRepoPath").getAsString());
 			
-			JsonObject colorConfig = config.get("colorConfig").getAsJsonObject();
+			JsonObject colorConfig = this.config.get("colorConfig").getAsJsonObject();
 			String hex = colorConfig.get("backGroundTextArea").getAsString();
 			this.janela.backGroundColorText.setText(hex);
 			int parsedResult = (int) Long.parseLong(hex, 16);
@@ -80,8 +80,8 @@ public class AssistenteJanela {
 	}
 
 	public void initValues () {
-		loadDsDirectories();
-		loadCheckBoxDs();
+		this.loadDsDirectories();
+		this.loadCheckBoxDs();
 
 	}
 
@@ -90,7 +90,7 @@ public class AssistenteJanela {
 	 * @param message
 	 */
 	public void setMessage(String message) {
-		setMessage(message, null);
+		this.setMessage(message, null);
 	}
 
 	/**
@@ -102,18 +102,18 @@ public class AssistenteJanela {
 		janela.messageLabel.setText(message);
 
 		if (type == null) {
-			janela.messageLabel.setForeground(new java.awt.Color(0x99FFFF));
+			this.janela.messageLabel.setForeground(new java.awt.Color(0x99FFFF));
 			return;
 		}
 		if (type.equalsIgnoreCase("ERRO")) {
-			janela.messageLabel.setForeground(new java.awt.Color(0xCC0000));
+			this.janela.messageLabel.setForeground(new java.awt.Color(0xCC0000));
 			return;
 		}
 		if (type.equalsIgnoreCase("WARNING")) {
-			janela.messageLabel.setForeground(new java.awt.Color(0xFF9900));
+			this.janela.messageLabel.setForeground(new java.awt.Color(0xFF9900));
 		}
 		if (type.equalsIgnoreCase("SUCCESS")) {
-			janela.messageLabel.setForeground(new java.awt.Color(0x00FF33));
+			this.janela.messageLabel.setForeground(new java.awt.Color(0x00FF33));
 		}
 	}
 
@@ -189,10 +189,31 @@ public class AssistenteJanela {
 			if (checkBoxDefault.get("patrimonio").getAsBoolean()) {
 				janela.patrimonioCheckBox.setSelected(true);
 			}
+			if ("xableiros".equals(config.get("DefaultConfigs").getAsString())) {
+				janela.radioPadraoXableiros.setSelected(true);
+                                janela.savePathButton.setEnabled(false);
+			} else if ("baguncado".equals(config.get("DefaultConfigs").getAsString())) {
+				janela.radioBagunca.setSelected(true);
+                                janela.savePathButton.setEnabled(true);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			setMessage("Erro ao Carregar diretorio DS", "ERRO");
 		}
+	}
+
+	public void loadSelectedConfig() {
+
+		if (janela.radioPadraoXableiros.isSelected()) {
+			this.config = FuFile.readFileJsonObject(systemHome+"/conf/config.json");
+                        janela.savePathButton.setEnabled(false);
+		} else if (janela.radioBagunca.isSelected()) {
+			this.config = FuFile.readFileJsonObject(systemHome+"/conf/userConfig.json");
+                        janela.savePathButton.setEnabled(true);
+		}
+
+		this.loadConfig();
+
 	}
 
 	/**
@@ -346,7 +367,7 @@ public class AssistenteJanela {
 	 */
 	public void saveDs(String dsName) {
 		if (this.pathDsText().equals("")) {
-			this.setMessage("Erro Ao Copiar, Diretório DS Ñ Encontrado", "ERRO");
+			this.setMessage("Erro Ao Salvar, Diretório DS Ñ Encontrado", "ERRO");
 			return;
 		}
 
@@ -496,30 +517,129 @@ public class AssistenteJanela {
 
 	public void generateXableirosPaths() {
 		StringBuilder jsonString = new StringBuilder();
-		jsonString.append("\"deployPath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/jboss-5.1.0.GA.GCONT/server/default/deploy\",");
-		jsonString.append("\"dsPath\": \"C:/Users/ENTRAPTA/Xableiros/DS\",");
-		jsonString.append("\"jBossPath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/jboss-5.1.0.GA.GCONT\",");
-		jsonString.append("\"MavenHomePath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/apache-maven-3.2.5\",");
-		jsonString.append("\"MavenUserSettingsFilePath\": \"C:/Users/ENTRAPTA/Xableiros/contratos/apache-maven-3.2.5/conf/settings_gcont.xml\",");
-		jsonString.append("\"MavemRepoPath\": \"C:/Users/ENTRAPTA/Xableiros/MavemRepo\",");
-		jsonString.append("\"DefaultConfigs\": \"xableiros\", ");
-		jsonString.append("\"checkBoxDefault\": {");
-		jsonString.append("	\"comum\": true,");
-		jsonString.append("	\"contrato\": true,");
-		jsonString.append("	\"patrimonio\": false");
-		jsonString.append("},");
-		jsonString.append("\"colorConfig\": {");
-		jsonString.append("	\"backGroundTextArea\": \"310049\",");
-		jsonString.append("	\"foreGroundTextArea\": \"33FF33\"");
-		jsonString.append("}");
+		String xableirosHomeScaped = xableirosHome.replace("\\", "/");
+		jsonString.append("{\n");
+		jsonString.append("\"deployPath\": \"" + xableirosHomeScaped + "/contratos/jboss-5.1.0.GA.GCONT/server/default/deploy\",\n");
+		jsonString.append("\"dsPath\": \"" + xableirosHomeScaped + "/DS\",\n");
+		jsonString.append("\"jBossPath\": \"" + xableirosHomeScaped + "/contratos/jboss-5.1.0.GA.GCONT\",\n");
+		jsonString.append("\"MavenHomePath\": \"" + xableirosHomeScaped + "/contratos/apache-maven-3.2.5\",\n");
+		jsonString.append("\"MavenUserSettingsFilePath\": \"" + xableirosHomeScaped + "/contratos/apache-maven-3.2.5/conf/settings_gcont.xml\",\n");
+		jsonString.append("\"MavemRepoPath\": \"" + xableirosHomeScaped + "/MavemRepo\",\n");
+		jsonString.append("\"DefaultConfigs\": \"xableiros\", \n");
+		jsonString.append("\"checkBoxDefault\": {\n");
+		jsonString.append("	\"comum\": true,\n");
+		jsonString.append("	\"contrato\": true,\n");
+		jsonString.append("	\"patrimonio\": false\n");
+		jsonString.append("},\n");
+		jsonString.append("\"colorConfig\": {\n");
+		jsonString.append("	\"backGroundTextArea\": \"310049\",\n");
+		jsonString.append("	\"foreGroundTextArea\": \"33FF33\"\n");
+		jsonString.append("}\n");
+		jsonString.append("}\n");
 
-		JsonObject generateConfig = new JsonObject();
+		FuFile.saveFileFromString(systemHome+"/conf/config.json", jsonString.toString());
 
-		generateConfig = new Gson().fromJson(jsonString.toString(), JsonObject.class);
-
-		System.out.println(generateConfig);
-
+		if (Boolean.TRUE.equals(janela.radioPadraoXableiros)) {
+			this.config = FuFile.readFileJsonObject(systemHome+"/conf/config.json");
+			this.loadConfig();
+		}
 
 	}
+
+        /**
+	 * 
+	 * @param userSettDir
+	 */
+	public void openUserSett(String userSettDir) {
+            try {
+                    if (FuFile.isArq(userSettDir)) {
+                        String userSettFile = FuFile.readFileToString(userSettDir);
+                        janela.panel04TextArea.setText(userSettFile);
+                        janela.leftTabbedPanel.setSelectedIndex(3);
+                    } else {
+                        janela.panel04TextArea.setText("NÃO ENCONRTADO");
+                    }
+
+            } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Erro Ao Abrir User Settings " + userSettDir);
+                    setMessage("Erro Ao Abrir User Settings " + userSettDir, "ERRO");
+            }
+
+            setMessage("User Sett Aberto na guia Texto " + userSettDir);
+	}
+        
+        /**
+	 * 
+	 * @param userSettDir
+	 */
+	public void saveUserSett (String userSettDir) {
+            if (userSettDir.equals("")) {
+                    this.setMessage("Erro Ao Salvar, Diretório userSett Ñ Encontrado", "ERRO");
+                    return;
+            }
+            
+            if (janela.panel04TextArea.getText().equals("")) {
+                this.setMessage("Erro Ao Salvar, Arquivo userSett está vazio", "ERRO");
+                return;
+            }
+
+            if (FuFile.saveFileFromString(userSettDir, janela.panel04TextArea.getText())) {
+                    this.setMessage("Arquivo " + userSettDir + " salvo", "SUCCESS");
+            }
+            
+            setMessage("User Sett salvo " + userSettDir, "SUCCESS");
+
+	}
+        
+        public void saveUserPath () {
+                        
+            if (this.config.isJsonNull()) {
+                this.setMessage("Erro Ao Salvar, Arquivo de caminhos está vazio", "ERRO");
+                return;
+            }
+            
+            if (systemHome == null || systemHome.equals("")) {
+                this.setMessage("Erro Ao Salvar, diretório de configuração não encontrado", "ERRO");
+                return;
+            }
+            
+            this.config.addProperty("dsPath", this.janela.pathDsText.getText());
+            this.config.addProperty("deployPath", this.janela.pathDeployText.getText());
+            this.config.addProperty("MavenHomePath", this.janela.mavenHomeText.getText());
+            this.config.addProperty("MavenUserSettingsFilePath", this.janela.mavenUserSettingsText.getText());
+            this.config.addProperty("MavemRepoPath", this.janela.mavenRepoText.getText());
+            
+            if (FuFile.saveFileFromJsonObject(systemHome+"/conf/userConfig.json", this.config)) {
+                    this.setMessage("Arquivo " + systemHome+"/conf/userConfig.json" + " salvo", "SUCCESS");
+            }
+
+	}
+        
+        public void saveSystemConfigurations() {
+                        
+            if (this.config.isJsonNull()) {
+                this.setMessage("Erro Ao Salvar, Arquivo de caminhos está vazio", "ERRO");
+                return;
+            }
+            
+            if (systemHome == null || systemHome.equals("")) {
+                this.setMessage("Erro Ao Salvar, diretório de configuração não encontrado", "ERRO");
+                return;
+            }
+            
+            JsonObject colorConfig = this.config.getAsJsonObject("colorConfig");
+            colorConfig.addProperty("backGroundTextArea", this.janela.backGroundColorText.getText());
+            colorConfig.addProperty("foreGroundTextArea", this.janela.foreGroundColorText.getText());
+            this.config.add("colorConfig", colorConfig);
+            
+
+            if (FuFile.saveFileFromJsonObject(systemHome+"/conf/userConfig.json", this.config)) {
+                    this.setMessage("Arquivo " + systemHome+"/conf/userConfig.json" + " salvo", "SUCCESS");
+                    loadConfig();
+            }
+
+	}
+
 
 }
