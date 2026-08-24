@@ -5,6 +5,8 @@
  */
 package view;
 
+import java.awt.Toolkit;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
 /**
@@ -32,6 +34,7 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
     private void initComponents() {
 
         dataBaseTypeButtonGroup = new javax.swing.ButtonGroup();
+        padraoXableirosButtonGroup = new javax.swing.ButtonGroup();
         BackGroundPanel = new javax.swing.JPanel();
         TittleLabe = new javax.swing.JLabel();
         FooterLabel = new javax.swing.JLabel();
@@ -52,19 +55,41 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         patrimonioCheckBox = new javax.swing.JCheckBox();
         copyDsLabel = new javax.swing.JLabel();
         scriptsTabPanel = new javax.swing.JPanel();
-        idDoContratoText = new javax.swing.JTextField();
+        jPanel5 = new javax.swing.JPanel();
         idDoContratoLabel = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        idDoContratoText = new javax.swing.JTextField();
+        mssqlRadioButton = new javax.swing.JRadioButton();
+        oracleRadioButton = new javax.swing.JRadioButton();
+        postgresRadioButton = new javax.swing.JRadioButton();
+        deleteContratoButton1 = new javax.swing.JButton();
+        deleteContratoButton = new javax.swing.JButton();
+        deleteContratoButton2 = new javax.swing.JButton();
         repoTabPanel = new javax.swing.JPanel();
-        configTabPanel = new javax.swing.JPanel();
+        panelMaven = new javax.swing.JPanel();
+        mavenHomeLabel = new javax.swing.JLabel();
+        mavenHomeText = new javax.swing.JTextField();
+        mavenUserSettingsLabel = new javax.swing.JLabel();
+        mavenUserSettingsText = new javax.swing.JTextField();
+        mavenLabel = new javax.swing.JLabel();
+        mavenRepoLabel = new javax.swing.JLabel();
+        mavenRepoText = new javax.swing.JTextField();
+        openUserSettButton = new javax.swing.JButton();
+        saveUserSettButton = new javax.swing.JButton();
+        closeUserSettButton = new javax.swing.JButton();
+        panelDSDeploy = new javax.swing.JPanel();
         pathDsLabel = new javax.swing.JLabel();
         pathDsText = new javax.swing.JTextField();
-        pathDeployText = new javax.swing.JTextField();
         pathDeployLabel = new javax.swing.JLabel();
+        pathDeployText = new javax.swing.JTextField();
+        coppyPathDeployToClipBoardButton = new javax.swing.JButton();
+        coppyPathDSToClipBoardButton = new javax.swing.JButton();
+        generateXableirousPathsButton = new javax.swing.JButton();
+        radioPadraoXableiros = new javax.swing.JRadioButton();
+        radioBagunca = new javax.swing.JRadioButton();
+        savePathButton = new javax.swing.JButton();
+        configTabPanel = new javax.swing.JPanel();
         saveConfigFile = new javax.swing.JButton();
+        jPanel4 = new javax.swing.JPanel();
         backGroundColorLabel = new javax.swing.JLabel();
         backGroundColorText = new javax.swing.JTextField();
         foreGroundColorLabel = new javax.swing.JLabel();
@@ -80,8 +105,12 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         thirdTabTablePanel = new javax.swing.JPanel();
         textArea03ScrollPane = new javax.swing.JScrollPane();
         panel03TextArea = new javax.swing.JTextArea();
+        fourthTabTablePanel = new javax.swing.JPanel();
+        textArea04ScrollPane = new javax.swing.JScrollPane();
+        panel04TextArea = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setMinimumSize(new java.awt.Dimension(200, 500));
 
         BackGroundPanel.setBackground(new java.awt.Color(0, 51, 51));
 
@@ -100,6 +129,11 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         messageLabel.setBackground(new java.awt.Color(255, 255, 255));
         messageLabel.setForeground(new java.awt.Color(153, 255, 255));
         messageLabel.setText("Nada;");
+        messageLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                messageLabelMouseClicked(evt);
+            }
+        });
 
         dsTabPanel.setBackground(new java.awt.Color(51, 51, 51));
         dsTabPanel.setMaximumSize(new java.awt.Dimension(180, 178));
@@ -181,14 +215,14 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                     .addComponent(contratoCheckBox)
                     .addComponent(patrimonioCheckBox)
                     .addComponent(copyDsLabel))
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addContainerGap(54, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(copyDsLabel)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                 .addComponent(comumCheckBox)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(contratoCheckBox)
@@ -206,16 +240,16 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                 .addGroup(dsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(readDsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(replaceDsButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(dsPathScrollPanel)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, dsTabPanelLayout.createSequentialGroup()
-                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
-                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(saveAsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(dsPathScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                     .addGroup(dsTabPanelLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(dsTabPanelLayout.createSequentialGroup()
+                        .addComponent(viewButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(106, 106, 106)
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(saveAsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         dsTabPanelLayout.setVerticalGroup(
@@ -224,15 +258,15 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(readDsButton)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(dsPathScrollPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(dsPathScrollPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(dsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(viewButton)
                     .addComponent(saveButton)
                     .addComponent(saveAsButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
                 .addComponent(replaceDsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -241,94 +275,265 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
 
         scriptsTabPanel.setBackground(new java.awt.Color(51, 51, 51));
 
-        idDoContratoText.setToolTipText("PODE SER INFORMADO MAIS DE 1 ID SEPARADO POR VIRGULA EX:[42,64,72]");
+        jPanel5.setBackground(new java.awt.Color(42, 42, 42));
+        jPanel5.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 153, 51), null, null)));
+        jPanel5.setPreferredSize(new java.awt.Dimension(150, 134));
 
         idDoContratoLabel.setForeground(new java.awt.Color(102, 255, 153));
         idDoContratoLabel.setText("Id Do Contrato:");
 
-        jButton1.setBackground(new java.awt.Color(255, 204, 204));
-        jButton1.setForeground(new java.awt.Color(204, 0, 0));
-        jButton1.setText("Gerar Exclusão");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        idDoContratoText.setToolTipText("PODE SER INFORMADO MAIS DE 1 ID SEPARADO POR VIRGULA EX:[42,64,72]");
+
+        mssqlRadioButton.setBackground(new java.awt.Color(51, 51, 51));
+        dataBaseTypeButtonGroup.add(mssqlRadioButton);
+        mssqlRadioButton.setForeground(new java.awt.Color(102, 255, 153));
+        mssqlRadioButton.setSelected(true);
+        mssqlRadioButton.setText("Mssql");
+
+        oracleRadioButton.setBackground(new java.awt.Color(51, 51, 51));
+        dataBaseTypeButtonGroup.add(oracleRadioButton);
+        oracleRadioButton.setForeground(new java.awt.Color(102, 255, 153));
+        oracleRadioButton.setText("Oracle");
+
+        postgresRadioButton.setBackground(new java.awt.Color(51, 51, 51));
+        dataBaseTypeButtonGroup.add(postgresRadioButton);
+        postgresRadioButton.setForeground(new java.awt.Color(102, 255, 153));
+        postgresRadioButton.setText("Postgres");
+
+        deleteContratoButton1.setBackground(new java.awt.Color(204, 255, 204));
+        deleteContratoButton1.setForeground(new java.awt.Color(0, 153, 51));
+        deleteContratoButton1.setText("Vamos Celebrar");
+        deleteContratoButton1.setMaximumSize(new java.awt.Dimension(105, 23));
+        deleteContratoButton1.setMinimumSize(new java.awt.Dimension(105, 23));
+        deleteContratoButton1.setPreferredSize(new java.awt.Dimension(105, 23));
+        deleteContratoButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                deleteContratoButton1ActionPerformed(evt);
             }
         });
 
-        jRadioButton1.setBackground(new java.awt.Color(51, 51, 51));
-        dataBaseTypeButtonGroup.add(jRadioButton1);
-        jRadioButton1.setForeground(new java.awt.Color(102, 255, 153));
-        jRadioButton1.setText("Mssql");
+        deleteContratoButton.setBackground(new java.awt.Color(255, 204, 204));
+        deleteContratoButton.setForeground(new java.awt.Color(204, 0, 0));
+        deleteContratoButton.setText("Gerar Exclusão");
+        deleteContratoButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteContratoButtonActionPerformed(evt);
+            }
+        });
 
-        jRadioButton2.setBackground(new java.awt.Color(51, 51, 51));
-        dataBaseTypeButtonGroup.add(jRadioButton2);
-        jRadioButton2.setForeground(new java.awt.Color(102, 255, 153));
-        jRadioButton2.setText("Oracle");
+        deleteContratoButton2.setBackground(new java.awt.Color(255, 204, 204));
+        deleteContratoButton2.setForeground(new java.awt.Color(204, 0, 0));
+        deleteContratoButton2.setText("Gerar Exclusão FB");
+        deleteContratoButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                deleteContratoButton2ActionPerformed(evt);
+            }
+        });
 
-        jRadioButton3.setBackground(new java.awt.Color(51, 51, 51));
-        dataBaseTypeButtonGroup.add(jRadioButton3);
-        jRadioButton3.setForeground(new java.awt.Color(102, 255, 153));
-        jRadioButton3.setText("Postgres");
-        jRadioButton3.setEnabled(false);
+        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
+        jPanel5.setLayout(jPanel5Layout);
+        jPanel5Layout.setHorizontalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(idDoContratoLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 141, Short.MAX_VALUE)
+                        .addComponent(idDoContratoText, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
+                        .addComponent(mssqlRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(oracleRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(postgresRadioButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(deleteContratoButton2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 140, Short.MAX_VALUE)
+                            .addComponent(deleteContratoButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteContratoButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
+        );
+        jPanel5Layout.setVerticalGroup(
+            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(idDoContratoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(idDoContratoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mssqlRadioButton)
+                    .addComponent(oracleRadioButton)
+                    .addComponent(postgresRadioButton)
+                    .addComponent(deleteContratoButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(deleteContratoButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(deleteContratoButton2)
+                .addGap(7, 7, 7))
+        );
 
         javax.swing.GroupLayout scriptsTabPanelLayout = new javax.swing.GroupLayout(scriptsTabPanel);
         scriptsTabPanel.setLayout(scriptsTabPanelLayout);
         scriptsTabPanelLayout.setHorizontalGroup(
             scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(scriptsTabPanelLayout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, scriptsTabPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(scriptsTabPanelLayout.createSequentialGroup()
-                        .addComponent(idDoContratoLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
-                        .addComponent(idDoContratoText, javax.swing.GroupLayout.PREFERRED_SIZE, 288, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(scriptsTabPanelLayout.createSequentialGroup()
-                        .addComponent(jRadioButton1)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton2)
-                        .addGap(18, 18, 18)
-                        .addComponent(jRadioButton3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .addContainerGap())
         );
         scriptsTabPanelLayout.setVerticalGroup(
             scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(scriptsTabPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(idDoContratoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(idDoContratoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(scriptsTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
-                .addContainerGap(300, Short.MAX_VALUE))
+                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(316, Short.MAX_VALUE))
         );
 
         rightTabbedPane.addTab("Scripts", scriptsTabPanel);
 
         repoTabPanel.setBackground(new java.awt.Color(51, 51, 51));
 
-        javax.swing.GroupLayout repoTabPanelLayout = new javax.swing.GroupLayout(repoTabPanel);
-        repoTabPanel.setLayout(repoTabPanelLayout);
-        repoTabPanelLayout.setHorizontalGroup(
-            repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 395, Short.MAX_VALUE)
+        panelMaven.setBackground(new java.awt.Color(42, 42, 42));
+        panelMaven.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 153, 51), null, null)));
+        panelMaven.setPreferredSize(new java.awt.Dimension(150, 134));
+
+        mavenHomeLabel.setForeground(new java.awt.Color(102, 255, 153));
+        mavenHomeLabel.setText("Home");
+
+        mavenHomeText.setToolTipText("Select a confgiguration file. csv type, two columns");
+        mavenHomeText.setMaximumSize(new java.awt.Dimension(180, 25));
+        mavenHomeText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mavenHomeTextMouseClicked(evt);
+            }
+        });
+        mavenHomeText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mavenHomeTextKeyPressed(evt);
+            }
+        });
+
+        mavenUserSettingsLabel.setForeground(new java.awt.Color(102, 255, 153));
+        mavenUserSettingsLabel.setText("User Sett");
+
+        mavenUserSettingsText.setToolTipText("Select a confgiguration file. csv type, two columns");
+        mavenUserSettingsText.setMaximumSize(new java.awt.Dimension(180, 25));
+        mavenUserSettingsText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mavenUserSettingsTextMouseClicked(evt);
+            }
+        });
+        mavenUserSettingsText.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mavenUserSettingsTextActionPerformed(evt);
+            }
+        });
+        mavenUserSettingsText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mavenUserSettingsTextKeyPressed(evt);
+            }
+        });
+
+        mavenLabel.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
+        mavenLabel.setForeground(new java.awt.Color(153, 255, 153));
+        mavenLabel.setHorizontalAlignment(javax.swing.SwingConstants.TRAILING);
+        mavenLabel.setText("Maven");
+
+        mavenRepoLabel.setForeground(new java.awt.Color(102, 255, 153));
+        mavenRepoLabel.setText("MavenRepo");
+
+        mavenRepoText.setToolTipText("Select a confgiguration file. csv type, two columns");
+        mavenRepoText.setMaximumSize(new java.awt.Dimension(180, 25));
+        mavenRepoText.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                mavenRepoTextMouseClicked(evt);
+            }
+        });
+        mavenRepoText.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                mavenRepoTextKeyPressed(evt);
+            }
+        });
+
+        openUserSettButton.setText("Abrir User Sett");
+        openUserSettButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openUserSettButtonActionPerformed(evt);
+            }
+        });
+
+        saveUserSettButton.setText("Salvar User Sett");
+        saveUserSettButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveUserSettButtonActionPerformed(evt);
+            }
+        });
+
+        closeUserSettButton.setText("Fechar User Sett");
+
+        javax.swing.GroupLayout panelMavenLayout = new javax.swing.GroupLayout(panelMaven);
+        panelMaven.setLayout(panelMavenLayout);
+        panelMavenLayout.setHorizontalGroup(
+            panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMavenLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(mavenLabel)
+                .addGap(172, 172, 172))
+            .addGroup(panelMavenLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panelMavenLayout.createSequentialGroup()
+                        .addGap(0, 132, Short.MAX_VALUE)
+                        .addComponent(openUserSettButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(saveUserSettButton)
+                        .addGap(18, 18, 18)
+                        .addComponent(closeUserSettButton))
+                    .addGroup(panelMavenLayout.createSequentialGroup()
+                        .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mavenUserSettingsLabel)
+                            .addComponent(mavenRepoLabel)
+                            .addComponent(mavenHomeLabel))
+                        .addGap(18, 18, 18)
+                        .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(mavenHomeText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(mavenUserSettingsText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(mavenRepoText, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap())
         );
-        repoTabPanelLayout.setVerticalGroup(
-            repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 365, Short.MAX_VALUE)
+        panelMavenLayout.setVerticalGroup(
+            panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelMavenLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(mavenLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mavenHomeLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mavenHomeText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mavenUserSettingsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(mavenUserSettingsText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(mavenRepoText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mavenRepoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(panelMavenLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(openUserSettButton)
+                    .addComponent(saveUserSettButton)
+                    .addComponent(closeUserSettButton))
+                .addGap(27, 27, 27))
         );
 
-        rightTabbedPane.addTab("Repo", repoTabPanel);
-
-        configTabPanel.setBackground(new java.awt.Color(51, 51, 51));
+        panelDSDeploy.setBackground(new java.awt.Color(42, 42, 42));
+        panelDSDeploy.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 153, 51), null, null)));
+        panelDSDeploy.setPreferredSize(new java.awt.Dimension(150, 134));
 
         pathDsLabel.setForeground(new java.awt.Color(102, 255, 153));
-        pathDsLabel.setText("Caminho DS:");
+        pathDsLabel.setText("DS:");
 
         pathDsText.setToolTipText("Select a confgiguration file. csv type, two columns");
         pathDsText.setMaximumSize(new java.awt.Dimension(180, 25));
@@ -343,6 +548,9 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
             }
         });
 
+        pathDeployLabel.setForeground(new java.awt.Color(102, 255, 153));
+        pathDeployLabel.setText("Deploy:");
+
         pathDeployText.setToolTipText("Select a confgiguration file. csv type, two columns");
         pathDeployText.setMaximumSize(new java.awt.Dimension(180, 25));
         pathDeployText.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -356,8 +564,140 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
             }
         });
 
-        pathDeployLabel.setForeground(new java.awt.Color(102, 255, 153));
-        pathDeployLabel.setText("Caminho Deploy:");
+        coppyPathDeployToClipBoardButton.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        coppyPathDeployToClipBoardButton.setText("CP");
+        coppyPathDeployToClipBoardButton.setAlignmentY(0.0F);
+        coppyPathDeployToClipBoardButton.setBorderPainted(false);
+        coppyPathDeployToClipBoardButton.setDefaultCapable(false);
+        coppyPathDeployToClipBoardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                coppyPathDeployToClipBoardButtonButtonMouseClicked(evt);
+            }
+        });
+
+        coppyPathDSToClipBoardButton.setFont(new java.awt.Font("Times New Roman", 0, 12)); // NOI18N
+        coppyPathDSToClipBoardButton.setText("CP");
+        coppyPathDSToClipBoardButton.setAlignmentY(0.0F);
+        coppyPathDSToClipBoardButton.setBorderPainted(false);
+        coppyPathDSToClipBoardButton.setDefaultCapable(false);
+        coppyPathDSToClipBoardButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                coppyPathDSToClipBoardButtonButtonMouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelDSDeployLayout = new javax.swing.GroupLayout(panelDSDeploy);
+        panelDSDeploy.setLayout(panelDSDeployLayout);
+        panelDSDeployLayout.setHorizontalGroup(
+            panelDSDeployLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDSDeployLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDSDeployLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(panelDSDeployLayout.createSequentialGroup()
+                        .addComponent(pathDsLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(coppyPathDSToClipBoardButton))
+                    .addGroup(panelDSDeployLayout.createSequentialGroup()
+                        .addComponent(pathDeployLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(coppyPathDeployToClipBoardButton)))
+                .addGap(18, 18, 18)
+                .addGroup(panelDSDeployLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(pathDsText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pathDeployText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        panelDSDeployLayout.setVerticalGroup(
+            panelDSDeployLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelDSDeployLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panelDSDeployLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pathDsText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathDsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(coppyPathDSToClipBoardButton))
+                .addGap(18, 18, 18)
+                .addGroup(panelDSDeployLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pathDeployText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pathDeployLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(coppyPathDeployToClipBoardButton))
+                .addContainerGap())
+        );
+
+        generateXableirousPathsButton.setText("Gerar Caminhos Xableirosos!");
+        generateXableirousPathsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                generateXableirousPathsButtonActionPerformed(evt);
+            }
+        });
+
+        radioPadraoXableiros.setBackground(new java.awt.Color(51, 51, 51));
+        padraoXableirosButtonGroup.add(radioPadraoXableiros);
+        radioPadraoXableiros.setForeground(new java.awt.Color(102, 255, 153));
+        radioPadraoXableiros.setText("Padrão Xableiros");
+        radioPadraoXableiros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioPadraoXableirosActionPerformed(evt);
+            }
+        });
+
+        radioBagunca.setBackground(new java.awt.Color(51, 51, 51));
+        padraoXableirosButtonGroup.add(radioBagunca);
+        radioBagunca.setForeground(new java.awt.Color(102, 255, 153));
+        radioBagunca.setText("Bagunçado");
+        radioBagunca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                radioBaguncaActionPerformed(evt);
+            }
+        });
+
+        savePathButton.setText("Salvar Caminhos");
+        savePathButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                savePathButtonActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout repoTabPanelLayout = new javax.swing.GroupLayout(repoTabPanel);
+        repoTabPanel.setLayout(repoTabPanelLayout);
+        repoTabPanelLayout.setHorizontalGroup(
+            repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(repoTabPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(repoTabPanelLayout.createSequentialGroup()
+                        .addComponent(radioPadraoXableiros)
+                        .addGap(18, 18, 18)
+                        .addComponent(radioBagunca)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(panelMaven, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                    .addComponent(panelDSDeploy, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, repoTabPanelLayout.createSequentialGroup()
+                        .addComponent(generateXableirousPathsButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(savePathButton)))
+                .addContainerGap())
+        );
+        repoTabPanelLayout.setVerticalGroup(
+            repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(repoTabPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(radioPadraoXableiros)
+                    .addComponent(radioBagunca))
+                .addGap(12, 12, 12)
+                .addComponent(panelMaven, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(panelDSDeploy, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 93, Short.MAX_VALUE)
+                .addGroup(repoTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(savePathButton)
+                    .addComponent(generateXableirousPathsButton))
+                .addContainerGap())
+        );
+
+        rightTabbedPane.addTab("Paths", repoTabPanel);
+
+        configTabPanel.setBackground(new java.awt.Color(51, 51, 51));
 
         saveConfigFile.setText("Salvar Alterações");
         saveConfigFile.addActionListener(new java.awt.event.ActionListener() {
@@ -365,6 +705,10 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                 saveConfigFileActionPerformed(evt);
             }
         });
+
+        jPanel4.setBackground(new java.awt.Color(42, 42, 42));
+        jPanel4.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.LOWERED, null, new java.awt.Color(0, 153, 51), null, null)));
+        jPanel4.setPreferredSize(new java.awt.Dimension(150, 134));
 
         backGroundColorLabel.setForeground(new java.awt.Color(102, 255, 153));
         backGroundColorLabel.setText("Cor De Fundo:");
@@ -398,54 +742,53 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
             }
         });
 
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(backGroundColorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(backGroundColorText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(foreGroundColorLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(foreGroundColorText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(133, Short.MAX_VALUE))
+        );
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(foreGroundColorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(foreGroundColorText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(backGroundColorText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(backGroundColorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(37, 37, 37))
+        );
+
         javax.swing.GroupLayout configTabPanelLayout = new javax.swing.GroupLayout(configTabPanel);
         configTabPanel.setLayout(configTabPanelLayout);
         configTabPanelLayout.setHorizontalGroup(
             configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(configTabPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(configTabPanelLayout.createSequentialGroup()
-                        .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pathDeployLabel)
-                            .addComponent(pathDsLabel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pathDeployText, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(pathDsText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configTabPanelLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(saveConfigFile))
-                    .addGroup(configTabPanelLayout.createSequentialGroup()
-                        .addComponent(backGroundColorLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(backGroundColorText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                        .addComponent(foreGroundColorLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(foreGroundColorText, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, 537, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, configTabPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(saveConfigFile)
                 .addContainerGap())
         );
         configTabPanelLayout.setVerticalGroup(
             configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(configTabPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pathDsText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pathDsLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(pathDeployText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(pathDeployLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(foreGroundColorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(foreGroundColorText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(configTabPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(backGroundColorLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(backGroundColorText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 231, Short.MAX_VALUE)
+                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 365, Short.MAX_VALUE)
                 .addComponent(saveConfigFile)
                 .addContainerGap())
         );
@@ -472,14 +815,14 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
             firstTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(firstTabTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textArea01ScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+                .addComponent(textArea01ScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
                 .addContainerGap())
         );
         firstTabTablePanelLayout.setVerticalGroup(
             firstTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(firstTabTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textArea01ScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addComponent(textArea01ScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -499,14 +842,14 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
             secondTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(secondTabTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textArea02ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+                .addComponent(textArea02ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
                 .addContainerGap())
         );
         secondTabTablePanelLayout.setVerticalGroup(
             secondTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(secondTabTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textArea02ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addComponent(textArea02ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -526,18 +869,45 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
             thirdTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(thirdTabTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textArea03ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+                .addComponent(textArea03ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
                 .addContainerGap())
         );
         thirdTabTablePanelLayout.setVerticalGroup(
             thirdTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(thirdTabTablePanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(textArea03ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 343, Short.MAX_VALUE)
+                .addComponent(textArea03ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         leftTabbedPanel.addTab("sigapatrimonio-ds", thirdTabTablePanel);
+
+        fourthTabTablePanel.setBackground(new java.awt.Color(51, 0, 51));
+
+        panel04TextArea.setBackground(new java.awt.Color(49, 0, 73));
+        panel04TextArea.setColumns(20);
+        panel04TextArea.setForeground(new java.awt.Color(51, 255, 51));
+        panel04TextArea.setRows(5);
+        textArea04ScrollPane.setViewportView(panel04TextArea);
+
+        javax.swing.GroupLayout fourthTabTablePanelLayout = new javax.swing.GroupLayout(fourthTabTablePanel);
+        fourthTabTablePanel.setLayout(fourthTabTablePanelLayout);
+        fourthTabTablePanelLayout.setHorizontalGroup(
+            fourthTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fourthTabTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(textArea04ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 712, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        fourthTabTablePanelLayout.setVerticalGroup(
+            fourthTabTablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(fourthTabTablePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(textArea04ScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 474, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        leftTabbedPanel.addTab("texto", fourthTabTablePanel);
 
         javax.swing.GroupLayout BackGroundPanelLayout = new javax.swing.GroupLayout(BackGroundPanel);
         BackGroundPanel.setLayout(BackGroundPanelLayout);
@@ -554,8 +924,8 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                         .addGroup(BackGroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(BackGroundPanelLayout.createSequentialGroup()
                                 .addComponent(leftTabbedPanel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(rightTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 400, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(rightTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(BackGroundPanelLayout.createSequentialGroup()
                                 .addComponent(tellYouLabel)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -572,7 +942,7 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
                     .addComponent(FooterLabel1))
                 .addGap(18, 18, 18)
                 .addGroup(BackGroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(leftTabbedPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(leftTabbedPanel)
                     .addComponent(rightTabbedPane))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(BackGroundPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -620,9 +990,9 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
 
     private void pathDsTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pathDsTextMouseClicked
         if (evt.getClickCount() == 2) {
-            String newPath = assistenteJanela.getFolderPath("DS");
-            if (newPath != null && !newPath.equals("")) {
-                pathDsText.setText(newPath);
+            String diretorioSelecionado = assistenteJanela.getFolderPath("DS");
+            if (diretorioSelecionado != null && !diretorioSelecionado.equals("")) {
+                pathDsText.setText(diretorioSelecionado);
                 assistenteJanela.loadDsDirectories();
             }
         }
@@ -639,14 +1009,18 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
 
     private void pathDeployTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pathDeployTextMouseClicked
         if (evt.getClickCount() == 2) {
-            pathDeployText.setText(assistenteJanela.getFolderPath("Deploy"));
+            String diretorioSelecionado = assistenteJanela.getFolderPath("Deploy");
+            if (diretorioSelecionado != null && !diretorioSelecionado.equals(""))
+                pathDeployText.setText(diretorioSelecionado);
         }
     }//GEN-LAST:event_pathDeployTextMouseClicked
 
     private void pathDeployTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_pathDeployTextKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (pathDeployText.getText().isEmpty()) {
-                pathDeployText.setText(assistenteJanela.getFolderPath("DS"));
+                String diretorioSelecionado = assistenteJanela.getFolderPath("Deploy");
+                if (diretorioSelecionado != null && !diretorioSelecionado.equals(""))
+                    pathDeployText.setText(diretorioSelecionado);
             }
             
         }
@@ -654,6 +1028,7 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
 
     private void saveConfigFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveConfigFileActionPerformed
         // TODO add your handling code here:
+        assistenteJanela.saveSystemConfigurations();
     }//GEN-LAST:event_saveConfigFileActionPerformed
 
     private void dsPathListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_dsPathListMouseClicked
@@ -694,9 +1069,97 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_foreGroundColorTextKeyPressed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        assistenteJanela.generateDeleteScriptContrato(this.idDoContratoText.getText());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void deleteContratoButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteContratoButtonActionPerformed
+        //assistenteJanela.generateDeleteScriptsContratos(this.idDoContratoText.getText());
+        assistenteJanela.generateScriptsContratos(this.idDoContratoText.getText(), "exclui-contrato");
+    }//GEN-LAST:event_deleteContratoButtonActionPerformed
+
+    private void deleteContratoButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteContratoButton1ActionPerformed
+        assistenteJanela.generateScriptsContratos(this.idDoContratoText.getText(), "vamos-celebrar-2.0");
+    }//GEN-LAST:event_deleteContratoButton1ActionPerformed
+
+    private void messageLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_messageLabelMouseClicked
+         if (evt.getClickCount() == 2) {
+            assistenteJanela.setMessage("Nada;");            
+        }
+    }//GEN-LAST:event_messageLabelMouseClicked
+
+    private void mavenHomeTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mavenHomeTextMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenHomeTextMouseClicked
+
+    private void mavenHomeTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mavenHomeTextKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenHomeTextKeyPressed
+
+    private void mavenUserSettingsTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mavenUserSettingsTextMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenUserSettingsTextMouseClicked
+
+    private void mavenUserSettingsTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mavenUserSettingsTextKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenUserSettingsTextKeyPressed
+
+    private void mavenRepoTextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mavenRepoTextMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenRepoTextMouseClicked
+
+    private void mavenRepoTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_mavenRepoTextKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenRepoTextKeyPressed
+
+    private void generateXableirousPathsButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_generateXableirousPathsButtonActionPerformed
+        assistenteJanela.generateXableirosPaths();
+    }//GEN-LAST:event_generateXableirousPathsButtonActionPerformed
+
+    private void radioPadraoXableirosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioPadraoXableirosActionPerformed
+        assistenteJanela.loadSelectedConfig();
+    }//GEN-LAST:event_radioPadraoXableirosActionPerformed
+
+    private void radioBaguncaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_radioBaguncaActionPerformed
+        assistenteJanela.loadSelectedConfig();
+    }//GEN-LAST:event_radioBaguncaActionPerformed
+
+    private void deleteContratoButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteContratoButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteContratoButton2ActionPerformed
+
+    private void coppyPathDeployToClipBoardButtonButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coppyPathDeployToClipBoardButtonButtonMouseClicked
+        // TODO add your handling code here:
+        Toolkit.getDefaultToolkit()
+        .getSystemClipboard()
+        .setContents(
+                new StringSelection(pathDeployText.getText()), null);
+        
+        assistenteJanela.setMessage("Caminho Deploy Copiado", "SUCCESS");
+    }//GEN-LAST:event_coppyPathDeployToClipBoardButtonButtonMouseClicked
+
+    private void coppyPathDSToClipBoardButtonButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_coppyPathDSToClipBoardButtonButtonMouseClicked
+        Toolkit.getDefaultToolkit()
+        .getSystemClipboard()
+        .setContents(
+                new StringSelection(pathDsText.getText()), null);
+        
+        assistenteJanela.setMessage("Caminho DS Copiado", "SUCCESS");
+    }//GEN-LAST:event_coppyPathDSToClipBoardButtonButtonMouseClicked
+
+    private void openUserSettButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openUserSettButtonActionPerformed
+        assistenteJanela.openUserSett(mavenUserSettingsText.getText());
+    }//GEN-LAST:event_openUserSettButtonActionPerformed
+
+    private void mavenUserSettingsTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mavenUserSettingsTextActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_mavenUserSettingsTextActionPerformed
+
+    private void saveUserSettButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveUserSettButtonActionPerformed
+        // TODO add your handling code here:
+        assistenteJanela.saveUserSett(mavenUserSettingsText.getText());
+    }//GEN-LAST:event_saveUserSettButtonActionPerformed
+
+    private void savePathButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_savePathButtonActionPerformed
+        // TODO add your handling code here:
+        assistenteJanela.saveUserPath();
+    }//GEN-LAST:event_savePathButtonActionPerformed
 
     private AssistenteJanela assistenteJanela;
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -706,34 +1169,57 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
     private javax.swing.JLabel TittleLabe;
     private javax.swing.JLabel backGroundColorLabel;
     public javax.swing.JTextField backGroundColorText;
+    private javax.swing.JButton closeUserSettButton;
     public javax.swing.JCheckBox comumCheckBox;
     private javax.swing.JPanel configTabPanel;
     public javax.swing.JCheckBox contratoCheckBox;
+    private javax.swing.JButton coppyPathDSToClipBoardButton;
+    private javax.swing.JButton coppyPathDeployToClipBoardButton;
     private javax.swing.JLabel copyDsLabel;
-    private javax.swing.ButtonGroup dataBaseTypeButtonGroup;
+    public javax.swing.ButtonGroup dataBaseTypeButtonGroup;
+    private javax.swing.JButton deleteContratoButton;
+    private javax.swing.JButton deleteContratoButton1;
+    private javax.swing.JButton deleteContratoButton2;
     public javax.swing.JList<String> dsPathList;
     private javax.swing.JScrollPane dsPathScrollPanel;
     private javax.swing.JPanel dsTabPanel;
     private javax.swing.JPanel firstTabTablePanel;
     private javax.swing.JLabel foreGroundColorLabel;
     public javax.swing.JTextField foreGroundColorText;
+    private javax.swing.JPanel fourthTabTablePanel;
+    private javax.swing.JButton generateXableirousPathsButton;
     private javax.swing.JLabel idDoContratoLabel;
     public javax.swing.JTextField idDoContratoText;
-    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JTabbedPane leftTabbedPanel;
+    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel5;
+    public javax.swing.JTabbedPane leftTabbedPanel;
+    private javax.swing.JLabel mavenHomeLabel;
+    public javax.swing.JTextField mavenHomeText;
+    private javax.swing.JLabel mavenLabel;
+    private javax.swing.JLabel mavenRepoLabel;
+    public javax.swing.JTextField mavenRepoText;
+    private javax.swing.JLabel mavenUserSettingsLabel;
+    public javax.swing.JTextField mavenUserSettingsText;
     public javax.swing.JLabel messageLabel;
+    public javax.swing.JRadioButton mssqlRadioButton;
+    private javax.swing.JButton openUserSettButton;
+    public javax.swing.JRadioButton oracleRadioButton;
+    private javax.swing.ButtonGroup padraoXableirosButtonGroup;
     public javax.swing.JTextArea panel01TextArea;
     public javax.swing.JTextArea panel02TextArea;
     public javax.swing.JTextArea panel03TextArea;
+    public javax.swing.JTextArea panel04TextArea;
+    private javax.swing.JPanel panelDSDeploy;
+    private javax.swing.JPanel panelMaven;
     private javax.swing.JLabel pathDeployLabel;
     public javax.swing.JTextField pathDeployText;
     private javax.swing.JLabel pathDsLabel;
     public javax.swing.JTextField pathDsText;
     public javax.swing.JCheckBox patrimonioCheckBox;
+    public javax.swing.JRadioButton postgresRadioButton;
+    public javax.swing.JRadioButton radioBagunca;
+    public javax.swing.JRadioButton radioPadraoXableiros;
     private javax.swing.JButton readDsButton;
     private javax.swing.JButton replaceDsButton;
     private javax.swing.JPanel repoTabPanel;
@@ -741,12 +1227,15 @@ public class XableirosRepoAssistente extends javax.swing.JFrame {
     private javax.swing.JButton saveAsButton;
     private javax.swing.JButton saveButton;
     private javax.swing.JButton saveConfigFile;
+    public javax.swing.JButton savePathButton;
+    private javax.swing.JButton saveUserSettButton;
     private javax.swing.JPanel scriptsTabPanel;
     private javax.swing.JPanel secondTabTablePanel;
     private javax.swing.JLabel tellYouLabel;
     private javax.swing.JScrollPane textArea01ScrollPane2;
     private javax.swing.JScrollPane textArea02ScrollPane;
     private javax.swing.JScrollPane textArea03ScrollPane;
+    private javax.swing.JScrollPane textArea04ScrollPane;
     private javax.swing.JPanel thirdTabTablePanel;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables

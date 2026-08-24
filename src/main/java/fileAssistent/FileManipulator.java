@@ -28,9 +28,19 @@ public class FileManipulator {
 
 	}
 
+	/**
+	 * 
+	 * @param dir
+	 * @return
+	 */
 	public static File[] listFolder (String dir) {
 		return listFolder(new java.io.File(dir));
 	}
+	/**
+	 * 
+	 * @param dir
+	 * @return
+	 */
 	public static File[] listFolder (File dir) {
 		File[] folderList = dir.listFiles(new FileFilter(){
 			@Override
@@ -43,14 +53,31 @@ public class FileManipulator {
 
 	}
 
+	/**
+	 * 
+	 * @param dir
+	 * @return
+	 */
 	public static File[] listFiles (File dir){
 		return dir.listFiles();
 	}
 
+	/**
+	 * 
+	 * @param originPath
+	 * @param destinyPath
+	 * @return
+	 */
 	public static Boolean copyFile (String originPath, String destinyPath) {
 		return copyFile(new java.io.File(originPath), new java.io.File(destinyPath));
 	}
 
+	/**
+	 * 
+	 * @param originFile
+	 * @param destinyFile
+	 * @return
+	 */
 	public static Boolean copyFile (File originFile, File destinyFile) {
 
 		try {
@@ -65,10 +92,20 @@ public class FileManipulator {
 		}
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static ArrayList<String> buffReadFileToArrayList (File file) {
 		return buffReadFileToArrayList(file);
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @return
+	 */
 	public static ArrayList<String> buffReadFileToArrayList (String file) {
 
 		if (!FuFile.isArq(file)) {
@@ -102,6 +139,13 @@ public class FileManipulator {
 
 	}
 
+	/**
+	 * 
+	 * @param file
+	 * @param oldName
+	 * @param newName
+	 * @return
+	 */
 	public static ArrayList<String> buffReadAndReplaceFileToArrayList (String file, String oldName, String newName) {
 
 		if (!FuFile.isArq(file)) {
@@ -136,9 +180,22 @@ public class FileManipulator {
 
 	}
 
-	public void buffWriteArrayList (File file , ArrayList<String> lines) {
+	/**
+	 * 
+	 * @param file
+	 * @param lines
+	 */
+	public static void buffWriteArrayList (File file , ArrayList<String> lines) {
+		buffWriteArrayList(file.getPath(), lines);
+	}
+	/**
+	 * 
+	 * @param file
+	 * @param lines
+	 */
+	public static void buffWriteArrayList (String file , ArrayList<String> lines) {
 
-		System.out.println("Writing: " + file.getPath() + "\n____");
+		System.out.println("Writing: " + file + "\n____");
 		try (BufferedWriter buffWriter = new BufferedWriter(new FileWriter(file))) {
 			for (String s : lines) {
 				buffWriter.write(s);
@@ -150,6 +207,10 @@ public class FileManipulator {
 		}
 	}
 
+	/**
+	 * 
+	 * @param dir
+	 */
 	public void delete (File dir){
 
 		File myObj = new File("filename.txt");
