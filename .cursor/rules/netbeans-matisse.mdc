@@ -1,0 +1,50 @@
+---
+description: Componentes Swing devem permanecer editáveis no Design do NetBeans (Matisse).
+alwaysApply: true
+---
+
+# UI NetBeans Matisse — editável na IDE
+
+Objetivo: todo componente visual criado neste projeto DEVE aparecer e ser editável depois no Design do NetBeans (propriedades, posição, eventos).
+
+## Obrigatório
+
+- Tela visual = par `Nome.java` + `Nome.form` no mesmo pacote (`view/`).
+- Ao criar ou alterar botão, label, painel, aba ou janela: atualizar **os dois arquivos** no mesmo passo, com o mesmo `name`.
+- Janela nova = novo par Form (JFrame/JDialog), nunca só uma classe Swing sem `.form`.
+- Copiar o padrão de um componente semelhante já existente em `XableirosRepoAssistente.form` / `.java`.
+- Lógica de negócio em `AssistenteJanela` (ou classe auxiliar). No Form, só o stub do evento chamando essa lógica.
+
+## Proibido (quebra o Design)
+
+- `new JButton()` / `add(...)` em runtime para UI permanente.
+- Componente só no `.java` ou só no `.form`.
+- Editar ou apagar marcadores `//GEN-BEGIN` / `//GEN-END` / `//GEN-FIRST` / `//GEN-LAST`.
+- Colocar lógica dentro de `initComponents()`.
+- Inventar XML de GroupLayout sem espelhar um bloco existente (id errado impede o Design de abrir).
+
+## Marcadores que a IDE é dona
+
+1. `initComponents()` entre `GEN-BEGIN:initComponents` e `GEN-END:initComponents`
+2. Stubs de evento: `GEN-FIRST:event_nomeHandler` … `GEN-LAST:event_nomeHandler`
+3. Campos: `GEN-BEGIN:variables` … `GEN-END:variables`
+
+O corpo entre FIRST/LAST pode (e deve) ser preenchido. O resto do stub a IDE controla.
+
+## Checklist ao adicionar um botão (espelhar `readDsButton`)
+
+No `.form`:
+
+- `<Component class="javax.swing.JButton" name="meuBotao">` com Properties e, se houver clique, `EventHandler` `actionPerformed` → `meuBotaoActionPerformed`
+- Referência no GroupLayout do container pai (`<Component id="meuBotao" .../>`) nos eixos 0 e 1
+
+No `.java` (dentro de `initComponents`):
+
+- Instanciação, `setText`, `addActionListener` apontando para `meuBotaoActionPerformed`
+- Inclusão no mesmo GroupLayout do painel
+- Método fora de `initComponents` com os marcadores GEN-FIRST/GEN-LAST
+- Campo em `GEN-BEGIN:variables`: `private javax.swing.JButton meuBotao;`
+
+## Preferência quando o layout for arriscado
+
+Pedir para o usuário criar o componente vazio no Design do NetBeans e só preencher o método de evento. Nunca “improvisar” layout que o Matisse não consiga reabrir.
